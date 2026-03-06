@@ -1,19 +1,11 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { 
   Scale, 
-  ShieldCheck, 
-  Gavel, 
-  Users, 
-  MessageSquare, 
-  Phone, 
-  MapPin, 
-  Mail, 
-  ArrowRight,
-  Menu,
-  X,
-  ChevronDown
+  MessageCircle,
+  Phone
 } from 'lucide-react';
 import Assistant from './components/Assistant';
 import Hero from './components/Hero';
@@ -22,9 +14,9 @@ import Team from './components/Team';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { AssistantProvider } from './contexts/AssistantContext';
+import ContactOptionsModal from './components/ContactOptionsModal'; // Import the new modal component
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -35,13 +27,9 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Inicio', href: '#home' },
-    { name: 'Servicios', href: '#services' },
-    { name: 'Nosotros', href: '#about' },
-    { name: 'Equipo', href: '#team' },
-    { name: 'Contacto', href: '#contact' },
-  ];
+  const openWhatsApp = () => {
+    window.open('https://wa.me/528771658515', '_blank');
+  };
 
   return (
     <nav className={`fixed w-full z-[100] transition-all duration-500 ${isScrolled ? 'bg-slate-900/95 backdrop-blur-md shadow-2xl py-3' : 'bg-transparent py-6'}`}>
@@ -56,63 +44,21 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-slate-200 hover:text-red-500 px-1 py-2 text-sm font-semibold transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all hover:after:w-full"
-                >
-                  {link.name}
-                </a>
-              ))}
-              <a 
-                href="#contact" 
-                className="bg-red-700 hover:bg-red-800 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-red-900/40 hover:-translate-y-0.5"
-              >
-                Consulta Gratuita
-              </a>
-            </div>
-          </div>
-
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={`p-2 rounded-xl transition-all ${isOpen ? 'bg-red-600 text-white' : 'text-white hover:bg-white/10'}`}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile menu overlay */}
-      <div className={`md:hidden fixed inset-0 z-[-1] bg-slate-950/60 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setIsOpen(false)}></div>
-
-      {/* Mobile menu content */}
-      <div className={`md:hidden absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 shadow-2xl transition-all duration-500 ease-in-out transform origin-top ${isOpen ? 'opacity-100 scale-y-100 translate-y-0' : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'}`}>
-        <div className="px-4 py-8 space-y-2 flex flex-col items-center">
-          {navLinks.map((link, index) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              style={{ transitionDelay: `${index * 75}ms` }}
-              className={`w-full text-center text-slate-300 hover:text-white py-4 text-xl font-serif font-medium transition-all transform ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'}`}
-            >
-              {link.name}
-            </a>
-          ))}
-          <div className={`w-full pt-6 transform transition-all duration-500 delay-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+          <div className="flex items-center gap-4">
             <a 
-              href="#contact" 
-              onClick={() => setIsOpen(false)}
-              className="bg-red-700 text-white block w-full py-5 rounded-2xl text-center text-lg font-bold shadow-2xl shadow-red-900/20 active:scale-95 transition-transform"
+              href="tel:+528771658515" 
+              className="hidden sm:flex items-center gap-2 text-white/80 hover:text-white text-sm font-bold transition-colors"
             >
-              Agendar Cita Ahora
+              <Phone className="h-4 w-4 text-red-500" />
+              +52 877 165 8515
             </a>
+            <button 
+              onClick={openWhatsApp}
+              className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-lg shadow-green-900/20 active:scale-95"
+            >
+              <MessageCircle className="h-4 w-4" />
+              WhatsApp
+            </button>
           </div>
         </div>
       </div>
@@ -121,13 +67,13 @@ const Navbar: React.FC = () => {
 };
 
 const HomePage: React.FC = () => {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false); // New state for contact modal
+
   return (
     <div className="relative">
-      <div id="home">
-        <Hero />
-      </div>
+      <Hero onConsultNowClick={() => setIsContactModalOpen(true)} /> {/* Pass handler to open modal */}
 
-      <section id="about" className="py-24 bg-white relative overflow-hidden">
+      <section className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:gap-16">
             <div className="lg:w-1/2 mb-12 lg:mb-0">
@@ -168,22 +114,15 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <section id="services">
-        <Services />
-      </section>
-
-      <section id="team">
-        <Team />
-      </section>
-
-      <section id="contact">
-        <Contact />
-      </section>
-
+      <Services />
+      <Team />
+      <Contact />
       <Footer />
-      
-      {/* AI Assistant Float */}
       <Assistant />
+      <ContactOptionsModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </div>
   );
 };

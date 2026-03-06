@@ -1,8 +1,10 @@
 
+
 import React from 'react';
 import { MessageSquare } from 'lucide-react';
 import { useAssistant } from '../contexts/AssistantContext';
-import ChatInterface from './ChatInterface';
+// Corrected import path for ChatInterface
+import ChatInterface from './ChatInterface'; 
 
 const Assistant: React.FC = () => {
   const { isOpen, setIsOpen } = useAssistant();

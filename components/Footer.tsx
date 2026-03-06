@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-4 text-sm">
               <li className="flex flex-col">
                 <span className="text-white font-bold">Ciudad Acuña</span>
-                <span>877 165 85 15</span>
+                <span>+52 877 165 8515</span>
               </li>
               <li className="flex flex-col">
                 <span className="text-white font-bold">Monclova</span>
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
             <p className="text-xs mb-2">Lic. Abraham Rodríguez:</p>
             <p className="text-red-500 text-lg font-bold mb-4">+52 844 213 3129</p>
             <p className="text-xs mb-2">WhatsApp Acuña:</p>
-            <p className="text-red-500 text-lg font-bold">877 165 85 15</p>
+            <p className="text-red-500 text-lg font-bold">+52 877 165 8515</p>
           </div>
         </div>
         

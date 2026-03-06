@@ -1,8 +1,16 @@
 
-import React from 'react';
-import { ArrowRight, Shield, Scale } from 'lucide-react';
 
-const Hero: React.FC = () => {
+import React from 'react';
+import { ArrowRight, Shield, Scale, Bot } from 'lucide-react'; // Importar el icono Bot
+import { useAssistant } from '../contexts/AssistantContext'; // Importar useAssistant
+
+interface HeroProps {
+  onConsultNowClick: () => void; // New prop for the "Consultar ahora" button
+}
+
+const Hero: React.FC<HeroProps> = ({ onConsultNowClick }) => {
+  const { setIsOpen } = useAssistant(); // Obtener setIsOpen del contexto
+
   return (
     <div className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-slate-950">
       <div className="absolute inset-0 z-0">
@@ -27,12 +35,18 @@ const Hero: React.FC = () => {
             Liderados por el <strong>Lic. Abraham Rodríguez</strong> (Ex Juez Penal), ofrecemos una defensa técnica superior en todo Coahuila.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a 
-              href="#contact" 
+            <button 
+              onClick={onConsultNowClick} // Trigger the modal
               className="bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-red-900/20"
             >
               Consultar ahora <ArrowRight className="h-5 w-5" />
-            </a>
+            </button>
+            <button // Nuevo botón para la IA
+              onClick={() => setIsOpen(true)}
+              className="bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-slate-900/20"
+            >
+              Hablar con LEXY <Bot className="h-5 w-5" />
+            </button>
             <a 
               href="https://lexmarcorp.webnode.es" 
               target="_blank"
